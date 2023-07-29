@@ -1,0 +1,87 @@
+//API used:http://newsapi.org/s/india-news-api
+const container = document.querySelector(".container");
+const optionsContainer = documment.querySelector(".options-container");
+// "in" stands for India
+const country = "in";
+const options = [ 
+  "general",
+  "entertainment",   
+  "health",
+  "scince",
+  "spotrs",
+   "technology",
+];
+
+// 100 request per day
+let requestURL;
+
+//Create cards from data
+const generateUI =  (articles) => { 
+   for (let item of articles) { 
+    let card = document.crearteElement("div");
+    card.classList.add("news-card");
+    card.innerHtaml = `<div 
+    class="news-image-container">
+    <img src="${item.urlToImage || "./newspaper.jpg"}
+    " alt="" /> 
+    </div>
+    <div class="news-content">
+      <div class="news-title">
+        ${item.title}     
+      </div>  
+      <div class="news-description">     
+      ${item.description || item.content || ""}  
+      </div>   
+      <a href="${item.ur}" target="-blank"
+       class="view-buttton">Read More</a>
+    </div>`;
+    container.appendChild(card);
+   }
+};
+
+//News API call
+const getNews = async () => { 
+   container.innerHtaml = "";
+   let response = await fetch(requestURL); 
+   if (!response.ok) { 
+      alert("Data unavailable at the moment. please try again later");
+      return false;
+   }
+   let data = await response.json(); 
+   generateUI(data.articles); 
+};
+
+//Category Selection
+const SelectCategory =  (e, category) => {                                                                                                                                       
+  let options = document.querySelectorAll(".option");
+  options.forEach((elemen)  =>  { 
+      element.classList.remove("active");
+
+  });
+  requestURL  = `https://newsapi.org/v2/top-headlines?
+  country=${country}&category=${category}&apiKey=${apiKey}`;
+   e.target.classList.add(".active");
+    getNews();
+};
+ 
+//Options Buttons
+const createOptions = () => { 
+   for (let i of options) { 
+      optionsContainer.innerHtml += `<button 
+      class="options ${ 
+          i == "general" ? "active" : ""
+      }" onclick="selectCategory(event,'${i}')">${i}</
+      buttons>`;
+   } 
+};
+
+
+
+
+
+
+
+
+
+
+        
